@@ -5,7 +5,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-username/titanic-ml-project.git'
+                git 'https://github.com/Logic-mac/titanic-ml-project.git'
             }
         }
 
