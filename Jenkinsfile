@@ -10,32 +10,23 @@ pipeline {
             }
         }
 
-        stage('Setup Python Environment') {
+        stage('Install Dependencies') {
             steps {
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    pip install --break-system-packages -r requirements.txt
                 '''
             }
         }
 
         stage('Train Model') {
             steps {
-                sh '''
-                    . venv/bin/activate
-                    python train.py
-                '''
+                sh 'python3 train.py'
             }
         }
 
         stage('Run Prediction') {
             steps {
-                sh '''
-                    . venv/bin/activate
-                    python predict.py
-                '''
+                sh 'python3 predict.py'
             }
         }
     }
