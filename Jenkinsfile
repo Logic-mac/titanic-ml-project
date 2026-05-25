@@ -12,31 +12,31 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Train Model') {
             steps {
-                bat 'python train.py'
+                sh 'python train.py'
             }
         }
 
         stage('Run Prediction') {
             steps {
-                bat 'python predict.py'
+                sh 'python predict.py'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t titanic-ml .'
+                sh 'docker build -t titanic-ml .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                bat 'docker run -d -p 5000:5000 --name titanic-container titanic-ml'
+                sh 'docker run -d -p 5000:5000 --name titanic-container titanic-ml'
             }
         }
     }
