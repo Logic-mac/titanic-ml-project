@@ -10,33 +10,32 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Python Environment') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Train Model') {
             steps {
-                sh 'python train.py'
+                sh '''
+                    . venv/bin/activate
+                    python train.py
+                '''
             }
         }
 
         stage('Run Prediction') {
             steps {
-                sh 'python predict.py'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t titanic-ml .'
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh 'docker run -d -p 5000:5000 --name titanic-container titanic-ml'
+                sh '''
+                    . venv/bin/activate
+                    python predict.py
+                '''
             }
         }
     }
